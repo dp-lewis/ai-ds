@@ -1,0 +1,58 @@
+/*
+ * Broadsheet — the quality daily.
+ *
+ * Serif throughout, generous space (1.25× the base scale), a restrained
+ * ink-blue accent, hairline rules and no shadows. Authority through
+ * whitespace and typography rather than colour.
+ */
+
+[data-theme='broadsheet'] {
+  /* Colour — warm white ground, near-black warm ink */
+  --ds-color-bg: #fffdf8;
+  --ds-color-surface: #f5f1e8;
+  --ds-color-fg: #1a1815;
+  --ds-color-fg-muted: #5a5449;
+  --ds-color-border: #d9d2c4;
+  --ds-color-border-strong: #6b6558;
+  --ds-color-brand: #1c3d5a;
+  --ds-color-brand-hover: #142c42;
+  --ds-color-brand-fg: #fffdf8;
+  --ds-color-danger: #8b2020;
+  --ds-color-focus-ring: #4a7ba7;
+
+  /* Type — serif for both roles */
+  --ds-font-heading: ui-serif, Georgia, 'Times New Roman', Times, serif;
+  --ds-font-body: ui-serif, Georgia, 'Times New Roman', Times, serif;
+  --ds-line-height-normal: 1.6;
+
+  /* Space — 1.25× base. Airiness is the brand. */
+  --ds-space-1: 0.3125rem;
+  --ds-space-2: 0.625rem;
+  --ds-space-3: 0.9375rem;
+  --ds-space-4: 1.25rem;
+  --ds-space-5: 1.875rem;
+  --ds-space-6: 2.5rem;
+  --ds-space-7: 3.75rem;
+  --ds-space-8: 5rem;
+
+  /* Shape — nearly square, hairline rules, flat */
+  --ds-radius-sm: 0;
+  --ds-radius-md: 2px;
+  --ds-radius-lg: 2px;
+  --ds-shadow-sm: none;
+  --ds-shadow-md: none;
+}
+
+[data-theme='broadsheet'][data-mode='dark'] {
+  --ds-color-bg: #14120f;
+  --ds-color-surface: #1e1b17;
+  --ds-color-fg: #f0ece3;
+  --ds-color-fg-muted: #a8a196;
+  --ds-color-border: #35302a;
+  --ds-color-border-strong: #8a8275;
+  --ds-color-brand: #7fa8cc;
+  --ds-color-brand-hover: #9dbdd9;
+  --ds-color-brand-fg: #14120f;
+  --ds-color-danger: #e88080;
+  --ds-color-focus-ring: #7fa8cc;
+}

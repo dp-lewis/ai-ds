@@ -11,4 +11,12 @@
  */
 import './styles/tokens.css';
 
+// Brand stylesheets. Order is irrelevant: tokens.css wraps its defaults in
+// :where(:root) for zero specificity, so every [data-theme] block wins
+// regardless of where it lands in the bundle.
+import './styles/themes/broadsheet.css';
+import './styles/themes/tabloid.css';
+import './styles/themes/financial.css';
+import './styles/themes/wireframe.css';
+
 export * from './index';

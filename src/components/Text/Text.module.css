@@ -1,0 +1,72 @@
+.text {
+  margin: 0;
+  color: var(--ds-color-fg);
+}
+
+/* Role — which family the text asks for. Heading and body are separate
+   tokens precisely so a brand can make them different typefaces. */
+
+.heading {
+  font-family: var(--ds-font-heading);
+  line-height: var(--ds-line-height-tight);
+  letter-spacing: var(--ds-letter-spacing-tight);
+}
+
+.body {
+  font-family: var(--ds-font-body);
+  line-height: var(--ds-line-height-normal);
+  letter-spacing: var(--ds-letter-spacing-normal);
+}
+
+/* Size. Class names are JS-safe identifiers (size2xl, not 2xl) so they can
+   be read off the CSS Module object without escaping. */
+
+.sizeSm {
+  font-size: var(--ds-font-size-sm);
+}
+.sizeMd {
+  font-size: var(--ds-font-size-md);
+}
+.sizeLg {
+  font-size: var(--ds-font-size-lg);
+}
+.sizeXl {
+  font-size: var(--ds-font-size-xl);
+}
+.size2xl {
+  font-size: var(--ds-font-size-2xl);
+}
+.size3xl {
+  font-size: var(--ds-font-size-3xl);
+}
+.size4xl {
+  font-size: var(--ds-font-size-4xl);
+}
+
+/* Weight */
+
+.regular {
+  font-weight: var(--ds-font-weight-regular);
+}
+.medium {
+  font-weight: var(--ds-font-weight-medium);
+}
+.bold {
+  font-weight: var(--ds-font-weight-bold);
+}
+
+/* Colour role */
+
+.muted {
+  color: var(--ds-color-fg-muted);
+}
+
+.accent {
+  color: var(--ds-color-brand);
+}
+
+/* Numerals — financial sets --ds-font-numeric to tabular-nums so columns of
+   figures line up. Every brand gets the token; only one changes it. */
+.numeric {
+  font-variant-numeric: var(--ds-font-numeric);
+}

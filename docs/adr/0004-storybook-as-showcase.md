@@ -1,7 +1,13 @@
 # 4. Storybook as the showcase, with autodocs and enforced a11y checks
 
 - **Date:** 2026-07-29
-- **Status:** Accepted
+- **Status:** Accepted — amended by [0010](./0010-hand-rolled-theme-switching.md)
+
+> **Amended.** The `@storybook/addon-themes` decision below was reversed by
+> [ADR 0010](./0010-hand-rolled-theme-switching.md): the addon cannot drive two
+> independent axes, so brand and mode switching is now hand-rolled and the
+> dependency is gone. Everything else in this record — Storybook itself,
+> autodocs, the a11y addon, `react-docgen` — still stands.
 
 ## Context
 

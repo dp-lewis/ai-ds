@@ -1,0 +1,36 @@
+/*
+ * A section kicker or status label. Small, dense, and the component most
+ * affected by --ds-text-transform-label: tabloid and wireframe uppercase
+ * their labels, broadsheet and financial leave them as written.
+ */
+
+.badge {
+  display: inline-block;
+  font-family: var(--ds-font-body);
+  font-size: var(--ds-font-size-sm);
+  font-weight: var(--ds-font-weight-medium);
+  line-height: var(--ds-line-height-tight);
+  letter-spacing: var(--ds-letter-spacing-wide);
+  text-transform: var(--ds-text-transform-label);
+  padding: var(--ds-space-1) var(--ds-space-2);
+  border: var(--ds-border-width) solid transparent;
+  border-radius: var(--ds-radius-sm);
+}
+
+/* Variants */
+
+.solid {
+  background-color: var(--ds-color-brand);
+  color: var(--ds-color-brand-fg);
+}
+
+.outline {
+  color: var(--ds-color-brand);
+  border-color: var(--ds-color-brand);
+}
+
+.muted {
+  background-color: var(--ds-color-surface);
+  color: var(--ds-color-fg-muted);
+  border-color: var(--ds-color-border);
+}

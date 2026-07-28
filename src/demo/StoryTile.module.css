@@ -1,0 +1,40 @@
+/*
+ * A single news story on the front page. "Story" here is the editorial
+ * sense — see docs/GLOSSARY.md; a Storybook entry is also called a story,
+ * and the bare word means that one.
+ */
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-2);
+}
+
+/* Stand-in for an image. Deliberately drawn from tokens so it reads as a
+   photo well in the print brands and as a sketched placeholder in
+   wireframe, without any brand-specific code. */
+.figure {
+  aspect-ratio: 16 / 9;
+  background-color: var(--ds-color-surface);
+  border: var(--ds-border-width) solid var(--ds-color-border);
+  border-radius: var(--ds-radius-sm);
+}
+
+.lead .figure {
+  aspect-ratio: 21 / 9;
+}
+
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-2);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ds-space-3);
+  padding-top: var(--ds-space-2);
+  border-top: var(--ds-border-width) solid var(--ds-color-border);
+}

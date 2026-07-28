@@ -8,7 +8,7 @@
 body {
   background-color: var(--ds-color-bg);
   color: var(--ds-color-fg);
-  font-family: var(--ds-font-sans);
+  font-family: var(--ds-font-body);
   font-size: var(--ds-font-size-md);
   line-height: var(--ds-line-height-normal);
 }

@@ -10,7 +10,7 @@
   justify-content: center;
   gap: var(--ds-space-2);
 
-  font-family: var(--ds-font-sans);
+  font-family: var(--ds-font-body);
   font-weight: var(--ds-font-weight-medium);
   line-height: var(--ds-line-height-tight);
   white-space: nowrap;
@@ -47,10 +47,13 @@
   background-color: var(--ds-color-brand-hover);
 }
 
+/* Uses border-strong, not border: this outline is what identifies the
+   control, so it needs 3:1 against the page. Decorative rules use the
+   softer --ds-color-border. */
 .secondary {
   background-color: var(--ds-color-bg);
   color: var(--ds-color-fg);
-  border-color: var(--ds-color-border);
+  border-color: var(--ds-color-border-strong);
 }
 
 .secondary:hover:not(:disabled) {

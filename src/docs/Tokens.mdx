@@ -10,7 +10,7 @@ export const Row = ({ children }) => (
       gap: 'var(--ds-space-4)',
       padding: 'var(--ds-space-2) 0',
       borderBottom: 'var(--ds-border-width) solid var(--ds-color-border)',
-      fontFamily: 'var(--ds-font-sans)',
+      fontFamily: 'var(--ds-font-body)',
       fontSize: 'var(--ds-font-size-sm)',
     }}
   >
@@ -57,17 +57,28 @@ export const Bar = ({ token }) => (
 
 # Tokens
 
-Every token is defined in `src/styles/tokens.css`. The samples below read the
-custom properties directly, so this page always reflects the real values — and
-it re-renders when you flip the theme toolbar.
+Base values are defined in `src/styles/tokens.css`; each brand overrides what it
+needs in `src/styles/themes/`. The samples below read the custom properties
+directly rather than restating them, so **this page always shows the values for
+whichever brand and mode the toolbar has selected** — switch brand and watch it
+change.
+
+A brand may override any token, including spacing. Only the colour set is
+mandatory; `npm run validate:tokens` checks all four brands define it for both
+modes.
 
 ## Colour
 
 Names are semantic rather than literal: a component asks for `surface` or
-`brand`, never `grey-100`. That's what lets the palette change without editing
-component styles, and what makes the dark theme a pure token override.
+`brand`, never `grey-100`. That's what let four palettes drop in without editing
+a single component stylesheet.
 
-{['--ds-color-bg', '--ds-color-surface', '--ds-color-fg', '--ds-color-fg-muted', '--ds-color-border', '--ds-color-brand', '--ds-color-brand-hover', '--ds-color-brand-fg', '--ds-color-danger', '--ds-color-focus-ring'].map((token) => (
+There are two border roles. `border` is decorative — card edges, dividers, rules
+— and may be a faint hairline. `border-strong` is the boundary that identifies an
+interactive control, and clears 3:1 against the page in every brand so the
+secondary button stays perceivable even where the brand favours delicate rules.
+
+{['--ds-color-bg', '--ds-color-surface', '--ds-color-fg', '--ds-color-fg-muted', '--ds-color-border', '--ds-color-border-strong', '--ds-color-brand', '--ds-color-brand-hover', '--ds-color-brand-fg', '--ds-color-danger', '--ds-color-focus-ring'].map((token) => (
 
 <Row key={token}>
   <Swatch token={token} />
@@ -79,6 +90,9 @@ component styles, and what makes the dark theme a pure token override.
 
 A 4px base. The scale is deliberately short — an open-ended one invites
 one-off values.
+
+Brands scale this to set their density: broadsheet runs at 1.25×, financial at
+0.9×, tabloid at 0.75×, and wireframe inherits the base scale unchanged.
 
 {[1, 2, 3, 4, 5, 6, 7, 8].map((step) => (
 
@@ -109,27 +123,122 @@ one-off values.
 
 ## Type
 
-{['sm', 'md', 'lg'].map((step) => (
+### Families
+
+Named by **role**, not classification. A component asks for `heading` or `body`
+and the brand decides the typeface — which is why broadsheet can be serif
+throughout while financial pairs a serif headline with a sans body.
+
+{['heading', 'body', 'mono'].map((role) => (
+
+<Row key={role}>
+  <Name>{`--ds-font-${role}`}</Name>
+  <span style={{ fontFamily: `var(--ds-font-${role})`, fontSize: 'var(--ds-font-size-xl)' }}>
+    Chancellor signals shift
+  </span>
+</Row>
+))}
+
+### Size
+
+`sm`–`lg` are UI text; `xl` and above are editorial display sizes.
+
+{['sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl'].map((step) => (
 
 <Row key={step}>
   <Name>{`--ds-font-size-${step}`}</Name>
-  <span style={{ fontSize: `var(--ds-font-size-${step})`, color: 'var(--ds-color-fg)' }}>
+  <span
+    style={{
+      fontSize: `var(--ds-font-size-${step})`,
+      fontFamily: 'var(--ds-font-heading)',
+      lineHeight: 'var(--ds-line-height-tight)',
+      color: 'var(--ds-color-fg)',
+    }}
+  >
     The quick brown fox
   </span>
 </Row>
 ))}
 
+### Weight
+
+{['regular', 'medium', 'bold'].map((weight) => (
+
+<Row key={weight}>
+  <Name>{`--ds-font-weight-${weight}`}</Name>
+  <span style={{ fontWeight: `var(--ds-font-weight-${weight})`, fontSize: 'var(--ds-font-size-lg)' }}>
+    The quick brown fox
+  </span>
+</Row>
+))}
+
+### Tracking
+
+{['tight', 'normal', 'wide'].map((step) => (
+
+<Row key={step}>
+  <Name>{`--ds-letter-spacing-${step}`}</Name>
+  <span style={{ letterSpacing: `var(--ds-letter-spacing-${step})`, fontSize: 'var(--ds-font-size-lg)' }}>
+    The quick brown fox
+  </span>
+</Row>
+))}
+
+### Numerals and case
+
+Two tokens that exist for specific brands. Only financial sets
+`--ds-font-numeric` to `tabular-nums`; tabloid and wireframe uppercase labels.
+
 <Row>
-  <Name>--ds-font-weight-regular</Name>
-  <span style={{ fontWeight: 'var(--ds-font-weight-regular)' }}>The quick brown fox</span>
+  <Name>--ds-font-numeric</Name>
+  <span
+    style={{
+      fontVariantNumeric: 'var(--ds-font-numeric)',
+      fontSize: 'var(--ds-font-size-lg)',
+      display: 'grid',
+    }}
+  >
+    <span>1,241.09</span>
+    <span>8,888.10</span>
+  </span>
 </Row>
 
 <Row>
-  <Name>--ds-font-weight-medium</Name>
-  <span style={{ fontWeight: 'var(--ds-font-weight-medium)' }}>The quick brown fox</span>
+  <Name>--ds-text-transform-label</Name>
+  <span
+    style={{
+      textTransform: 'var(--ds-text-transform-label)',
+      letterSpacing: 'var(--ds-letter-spacing-wide)',
+      fontSize: 'var(--ds-font-size-sm)',
+    }}
+  >
+    Politics
+  </span>
 </Row>
+
+## Borders
+
+Two widths. Brands diverge sharply here — tabloid draws 2px rules and 5px
+emphasis, broadsheet keeps hairlines.
+
+{['--ds-border-width', '--ds-border-width-thick'].map((token) => (
+
+<Row key={token}>
+  <Name>{token}</Name>
+  <span
+    style={{
+      width: 'var(--ds-space-8)',
+      borderTop: `var(${token}) solid var(--ds-color-fg)`,
+      flexShrink: 0,
+    }}
+  />
+</Row>
+))}
 
 ## Elevation
+
+Broadsheet, tabloid, and wireframe all set these to `none` — flat is part of
+their identity. Switch brand and these samples disappear entirely.
 
 {['sm', 'md'].map((step) => (
 

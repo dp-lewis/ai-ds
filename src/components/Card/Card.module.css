@@ -1,0 +1,48 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--ds-color-surface);
+  border: var(--ds-border-width) solid var(--ds-color-border);
+  border-radius: var(--ds-radius-md);
+  box-shadow: var(--ds-shadow-sm);
+  overflow: hidden;
+}
+
+/* Emphasis — a heavier rule for the lead item on a page. Brands set
+   --ds-border-width-thick very differently (tabloid 5px, base 3px). */
+.emphasis {
+  border-width: var(--ds-border-width-thick);
+  border-color: var(--ds-color-brand);
+}
+
+.plain {
+  background-color: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-2);
+  padding: var(--ds-space-3) var(--ds-space-4);
+  border-bottom: var(--ds-border-width) solid var(--ds-color-border);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-3);
+  padding: var(--ds-space-4);
+}
+
+/* A plain card has no visible edges, so its parts shouldn't draw one
+   either — otherwise the divider floats with nothing to attach to. */
+.plain .header {
+  border-bottom-color: transparent;
+  padding-inline: 0;
+}
+
+.plain .body {
+  padding-inline: 0;
+}

@@ -1,7 +1,18 @@
 # 3. Semantic token names, and only colour tokens are theme-scoped
 
 - **Date:** 2026-07-29
-- **Status:** Accepted
+- **Status:** **Superseded by [0009](./0009-two-axis-theming.md)**
+
+> **Superseded.** Two of this record's positions no longer hold: that only
+> colour tokens are theme-scoped, and that density is not a theme. Four
+> publication brands are differentiated chiefly by typography and density, so
+> [ADR 0009](./0009-two-axis-theming.md) allows a brand to override any token.
+> The word "theme" below also means what the glossary now calls **mode** —
+> dark is a mode; `theme` means brand.
+>
+> Its semantic-naming argument survives intact and is still in force. The
+> record is kept unedited because the reasoning, and what it cost to give up,
+> is the useful part.
 
 ## Context
 

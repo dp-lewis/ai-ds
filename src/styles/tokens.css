@@ -1,23 +1,55 @@
 /*
- * Design tokens.
+ * Design tokens — the base layer.
  *
- * Every value a component style needs lives here. Component .module.css files
- * reference these via var(--ds-*) and never hardcode a colour, length, or font.
+ * Every value a component style needs lives here or in a brand stylesheet.
+ * Component .module.css files reference these via var(--ds-*) and never
+ * hardcode a colour, length, or font.
  *
- * Theming works by re-pointing the colour tokens in a [data-theme] block below.
- * Non-colour scales are theme-invariant on purpose: spacing and type should not
- * shift when the palette does.
+ * THEMING (see docs/adr/0009-two-axis-theming.md)
+ *
+ * Two independent axes, both set as attributes on the same element:
+ *
+ *   [data-theme]  the brand: broadsheet | tabloid | financial | wireframe
+ *   [data-mode]   light | dark
+ *
+ * A brand may override ANY token, including spacing — brands differ by
+ * typography and density, not just palette. Switching brand can therefore
+ * reflow layout, which is intended.
+ *
+ * data-mode alone does nothing: dark values differ per brand, so they are
+ * only defined in combination ([data-theme='x'][data-mode='dark']). The
+ * values below are the unthemed light fallback, so components still render
+ * correctly with no attributes set at all.
+ *
+ * SPECIFICITY
+ *
+ * This block is wrapped in :where(), which contributes zero specificity.
+ * Every [data-theme] block therefore wins regardless of stylesheet order,
+ * so brand files can be imported in any sequence. Brand selectors are
+ * deliberately NOT prefixed with :root, so a brand can be scoped to any
+ * subtree — that is what makes the side-by-side brand comparison possible.
  */
 
-:root {
+:where(:root) {
   /* Colour — semantic names, not literal ones. A component asks for
      "surface" or "brand", never "grey-100", so the palette can change
-     without touching component styles. */
+     without touching component styles.
+
+     Every brand must define this full set for both modes; scripts/
+     validate-tokens.mjs enforces it, because a missing colour falls back
+     to this block and fails silently (dark text on a dark ground). */
   --ds-color-bg: #ffffff;
   --ds-color-surface: #f6f7f9;
   --ds-color-fg: #16181d;
   --ds-color-fg-muted: #5c6270;
+  /* Two border roles, deliberately separate. `border` is decorative — card
+     edges, dividers, rules — and may be a faint hairline. `border-strong` is
+     what identifies an interactive control's boundary (the secondary button),
+     so it must clear 3:1 against the page per WCAG 1.4.11. Collapsing these
+     into one token forces a brand to choose between visible controls and
+     delicate rules. */
   --ds-color-border: #d8dbe2;
+  --ds-color-border-strong: #6b7280;
   --ds-color-brand: #3b5bdb;
   --ds-color-brand-hover: #2f4bc4;
   --ds-color-brand-fg: #ffffff;
@@ -25,7 +57,8 @@
   --ds-color-focus-ring: #7b93f5;
 
   /* Space — 4px base. Skips are intentional: an open-ended scale invites
-     one-off values, a short one forces a choice. */
+     one-off values, a short one forces a choice. Brands scale these to set
+     their density (broadsheet is airy, tabloid is tight). */
   --ds-space-1: 0.25rem; /*  4px */
   --ds-space-2: 0.5rem; /*   8px */
   --ds-space-3: 0.75rem; /* 12px */
@@ -41,43 +74,51 @@
   --ds-radius-lg: 12px;
   --ds-radius-full: 9999px;
 
-  /* Typography */
-  --ds-font-sans:
+  /* Typography — families are named by ROLE. Components ask for "heading"
+     or "body" and brands repoint them, so no component names a typeface. */
+  --ds-font-heading:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --ds-font-body:
     ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --ds-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Size scale. sm–lg are UI text; xl and up are editorial display sizes. */
   --ds-font-size-sm: 0.8125rem; /* 13px */
   --ds-font-size-md: 0.875rem; /*  14px */
   --ds-font-size-lg: 1rem; /*      16px */
+  --ds-font-size-xl: 1.25rem; /*   20px */
+  --ds-font-size-2xl: 1.75rem; /*  28px */
+  --ds-font-size-3xl: 2.5rem; /*   40px */
+  --ds-font-size-4xl: 3.5rem; /*   56px */
+
   --ds-font-weight-regular: 400;
   --ds-font-weight-medium: 550;
+  --ds-font-weight-bold: 700;
+
   --ds-line-height-tight: 1.2;
   --ds-line-height-normal: 1.5;
+
+  --ds-letter-spacing-tight: -0.02em;
+  --ds-letter-spacing-normal: 0;
+  --ds-letter-spacing-wide: 0.08em;
+
+  /* Numerals. Financial overrides this to tabular-nums so figures align
+     in columns; everything else wants proportional. */
+  --ds-font-numeric: normal;
+
+  /* Case transform for labels and kickers. Brands that shout use uppercase. */
+  --ds-text-transform-label: none;
 
   /* Elevation, borders, motion */
   --ds-shadow-sm: 0 1px 2px rgb(16 24 40 / 6%);
   --ds-shadow-md: 0 4px 12px rgb(16 24 40 / 10%);
   --ds-border-width: 1px;
+  --ds-border-width-thick: 3px;
   --ds-duration-fast: 120ms;
 }
 
-/* Dark theme. Colour tokens only — see the note at the top of this file. */
-[data-theme='dark'] {
-  --ds-color-bg: #14161a;
-  --ds-color-surface: #1d2026;
-  --ds-color-fg: #eceef2;
-  --ds-color-fg-muted: #9aa1af;
-  --ds-color-border: #333844;
-  --ds-color-brand: #5c7cfa;
-  --ds-color-brand-hover: #748ffc;
-  --ds-color-brand-fg: #0f1115;
-  --ds-color-danger: #ff6b6b;
-  --ds-color-focus-ring: #8da2fb;
-
-  --ds-shadow-sm: 0 1px 2px rgb(0 0 0 / 40%);
-  --ds-shadow-md: 0 4px 12px rgb(0 0 0 / 50%);
-}
-
-/* Respect reduced-motion globally so no component has to remember to. */
+/* Respect reduced-motion globally so no component has to remember to.
+   Not wrapped in :where() — this must beat any brand's duration override. */
 @media (prefers-reduced-motion: reduce) {
   :root {
     --ds-duration-fast: 0ms;

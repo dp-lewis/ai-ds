@@ -1,0 +1,16 @@
+.masthead {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-2);
+  padding-block: var(--ds-space-4);
+  border-bottom: var(--ds-border-width-thick) solid var(--ds-color-fg);
+  text-align: center;
+}
+
+.meta {
+  display: flex;
+  justify-content: center;
+  gap: var(--ds-space-3);
+  padding-top: var(--ds-space-2);
+  border-top: var(--ds-border-width) solid var(--ds-color-border);
+}

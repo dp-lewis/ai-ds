@@ -15,35 +15,68 @@ npm install ai-ds
 ```
 
 ```tsx
-import { Button } from 'ai-ds';
+import { Badge, Button, Card, Text } from 'ai-ds';
 import 'ai-ds/styles.css'; // once, at your app's entry point
 
-export function Toolbar() {
-  return <Button onClick={save}>Save changes</Button>;
+export function Teaser() {
+  return (
+    <Card>
+      <Card.Header>
+        <Badge>Politics</Badge>
+      </Card.Header>
+      <Card.Body>
+        <Text as="h3">Chancellor signals shift in fiscal policy</Text>
+        <Button>Read more</Button>
+      </Card.Body>
+    </Card>
+  );
 }
 ```
 
-`styles.css` carries both the token layer and every component's styles.
+`styles.css` carries the token layer, all four brand stylesheets, and every
+component's styles.
 
 ## Theming
 
-Tokens resolve against `:root`, and the dark set is a `[data-theme="dark"]`
-override. Switch themes by setting the attribute — usually on `<html>`:
+Four publication brands, each in light and dark. Two independent axes, both set
+as attributes on the same element:
 
-```ts
-document.documentElement.dataset.theme = 'dark';
+```html
+<html data-theme="financial" data-mode="dark"></html>
 ```
 
-Only colour tokens are theme-scoped. Spacing, radius, and type stay fixed so a
-theme change can't reflow the layout. Use the toolbar control above to flip the
-whole canvas.
+```ts
+document.documentElement.dataset.theme = 'financial';
+document.documentElement.dataset.mode = 'dark';
+```
+
+| Brand | Character |
+| --- | --- |
+| `broadsheet` | Serif throughout, 1.25× space, hairline rules, no shadows |
+| `tabloid` | Condensed headlines at weight 800, 0.75× space, thick rules, uppercase labels |
+| `financial` | Salmon ground, serif over sans, `tabular-nums` for aligned figures |
+| `wireframe` | Monospace, greyscale, zero radius, every edge drawn |
+
+Use the **Brand** and **Mode** toolbar controls above to switch, and see
+**Brands → Front Page** for all four on a realistic page.
+
+A brand may override **any** token, including `--ds-space-*` — so switching
+brand changes typography and density, not just palette. That is deliberate:
+density is part of what distinguishes a tabloid from a broadsheet. The only
+mandatory obligation on a brand is the full colour set for both modes, which
+`npm run validate:tokens` enforces.
+
+`data-mode` alone does nothing, because dark values differ per brand. An element
+with no `data-theme` gets a neutral light fallback, so unthemed components never
+look broken.
 
 ## How it fits together
 
 ```
-tokens.css          →  --ds-* custom properties, plus the dark override
-Button.module.css   →  component styles, referencing only var(--ds-*)
-Button.tsx          →  maps props to those class names
+tokens.css          →  :where(:root) base layer + light fallback
+themes/*.css        →  [data-theme='x'] and [data-theme='x'][data-mode='dark']
+Text.module.css     →  component styles, referencing only var(--ds-*)
+Text.tsx            →  maps props to those class names
 src/index.ts        →  the public barrel consumers import from
 ```
 
@@ -52,20 +85,31 @@ Two rules keep this from drifting:
 1. **Component CSS uses `var(--ds-*)` exclusively.** No raw hex values, no
    literal pixel or rem lengths. If a style needs something the token layer
    doesn't have, add a token.
-2. **Components never branch on theme.** No `[data-theme]` selectors outside
-   `tokens.css`, and no theme value read in JS. Re-pointing a colour token is
-   the whole mechanism.
+2. **Components never branch on brand or mode.** No `[data-theme]` or
+   `[data-mode]` selectors outside `src/styles/`, and no brand value read in JS.
+   Token overrides are the whole mechanism — there is no brand-conditional code
+   anywhere, including in the demo front page.
+
+Font families follow the same principle as colour: they are named by **role**
+(`--ds-font-heading`, `--ds-font-body`) rather than by classification, so a
+component asks for a role and the brand decides the typeface.
 
 ## Adding a component
 
 Copy the `Button` directory's shape — it exists to be the reference:
 
 ```
-src/components/Card/
-  Card.tsx           props → class names, extends the native element's props
-  Card.module.css    styles, tokens only
-  Card.stories.tsx   tags: ['autodocs'], one story per meaningful state
-  index.ts           re-export the component and its prop types
+src/components/Select/
+  Select.tsx           props → class names, extends the native element's props
+  Select.module.css    styles, tokens only
+  Select.stories.tsx   tags: ['autodocs'], one story per meaningful state
+  index.ts             re-export the component and its prop types
 ```
 
-Then add the re-export to `src/index.ts`, or it won't ship in the package.
+Then add the re-export to `src/index.ts`, or it won't ship in the package. See
+`Card` for the compound-component pattern (`Card.Header`, `Card.Body`).
+
+Components under `src/demo/` — `Masthead`, `Byline`, `StoryTile`, `FrontPage` —
+are showcase furniture and deliberately **not** exported. They follow the same
+authoring discipline, which is what makes the front page genuine evidence that
+the theming works.

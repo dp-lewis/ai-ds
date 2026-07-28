@@ -43,15 +43,17 @@ Two independent axes. They compose, and conflating them is the mistake this sect
 
 | Term | Meaning | Values |
 | --- | --- | --- |
-| **mode** | How a single brand adapts to a viewing context. | `light`, `dark`, potentially `high-contrast` |
-| **theme** | Whose brand is being rendered. | `default`, and any future brand |
-| **density** | Spacing across a region of UI. Independent of both mode and theme — [ADR 0003](./adr/0003-semantic-token-naming.md) argues density is not a theme. **Not implemented.** | `compact`, `comfortable` |
+| **mode** | How a single brand adapts to a viewing context. | `light`, `dark` |
+| **theme** | Whose brand is being rendered. Also called **brand** in prose; the two are interchangeable, and `theme` is what the attribute is called. | `broadsheet`, `tabloid`, `financial`, `wireframe` |
+| **density** | How tightly spaced a brand is. **Not a separate axis** — a brand sets its own density by overriding `--ds-space-*`. | Expressed per brand, not selected independently |
 
-So "the Acme brand in dark mode" is a theme and a mode together, not one compound thing.
+So "financial in dark mode" is a theme and a mode together, not one compound thing. Both are attributes on the same element: `[data-theme="financial"][data-mode="dark"]`.
 
-⚠️ **The code does not yet match this.** `tokens.css` implements dark as `[data-theme="dark"]`, which under this glossary should be `[data-mode="dark"]`. See *Known inconsistencies* below.
+**`data-mode` alone does nothing.** Dark values differ per brand, so they are only defined in combination. An element with no `data-theme` gets the light fallback from `:where(:root)`.
 
-> *Not used:* "theme" as an umbrella for both axes, "dark theme" (it's a dark **mode**), "spacing scale" for density (that already means the `--ds-space-*` ramp).
+> *Not used:* "theme" as an umbrella for both axes, "dark theme" (it's a dark **mode**), "spacing scale" for density (that already means the `--ds-space-*` ramp), `density` as an independent axis or attribute.
+
+**Changed 2026-07-29.** `density` originally read "independent of both mode and theme", following [ADR 0003](./adr/0003-semantic-token-naming.md). [ADR 0009](./adr/0009-two-axis-theming.md) superseded that: publication brands differ by density as much as by palette, so a brand overrides the space scale directly. If a compact mode is ever wanted *within* a single brand, density becomes a real third axis and this entry changes again.
 
 ---
 
@@ -76,6 +78,20 @@ Three tiers. The word **`primitive` is deliberately absent** — it belongs to t
 | **size** | One component's own scale: `sm`, `md`, `lg`. A size is *not* a variant, and not density. |
 | **state** | A runtime condition, not a prop: hover, focus-visible, disabled, loading. |
 | **story** | One Storybook entry showing a component in a particular configuration. |
+
+### "Story" has two senses
+
+Unavoidable in a newspaper design system. The split:
+
+| Term | Meaning |
+| --- | --- |
+| **story** (bare) | A Storybook entry. This is the default reading. |
+| **news story** | The editorial thing. Always qualified in prose. |
+| `StoryTile` | A component; "story" in its name is the editorial sense. |
+
+So "`StoryTile` has four stories" means four Storybook entries, and it is not ambiguous once written down. The editorial sense appears **only inside component names** — never bare in prose.
+
+> *Not used:* "example" for a Storybook entry (fights the tool's own vocabulary, the `.stories.tsx` filename, and all of Storybook's documentation).
 
 **"Variant" is never an umbrella term.** There's no collective noun for appearance-affecting props — they're just props. Ask "which props does `Button` take?", not "which modifiers?".
 
@@ -113,20 +129,26 @@ Two separate vocabularies. Components have readiness; decisions have status. Kee
 | --- | --- |
 | **accepted** | In force. |
 | **provisional** | Accepted, with explicit conditions for revisiting — as in [ADR 0007](./adr/0007-defer-tests-and-linting.md). |
-| **superseded by NNNN** | Replaced. The record stays; only its status changes. |
+| **amended by NNNN** | Still in force, but one specific decision within it was reversed — as in [ADR 0004](./adr/0004-storybook-as-showcase.md). |
+| **superseded by NNNN** | Replaced wholesale. The record stays unedited; only its status changes. |
 
 > *Not used:* "draft" / "beta" for components, "deprecated" for a decision (decisions are superseded), "superseded" for a component (components are deprecated).
 
+### Current component labels
+
+| Component | Label |
+| --- | --- |
+| `Button`, `Text`, `Card`, `Badge` | stable |
+| `Masthead`, `Byline`, `StoryTile`, `FrontPage` | not applicable — demo furniture, unexported ([ADR 0011](./adr/0011-demo-components-stay-unexported.md)) |
+
 ---
 
-## Known inconsistencies
+## Resolved inconsistencies
 
-Recorded rather than quietly fixed, because resolving them changes code and published API.
+This section previously listed three gaps between the glossary and the code. All three were closed on 2026-07-29 by the four-brand theming change ([ADR 0009](./adr/0009-two-axis-theming.md)). Kept as a record of what was fixed:
 
-1. **`[data-theme="dark"]` should be `[data-mode="dark"]`.** Affects `tokens.css`, the `withThemeByDataAttribute` decorator in `.storybook/preview.ts`, ADR 0003, `CLAUDE.md`, and `readme.md`. It's a public API change for consumers who set the attribute themselves — cheapest to do now, while there are none.
+1. **`[data-theme="dark"]` → `[data-mode="dark"]`** — done. `theme` now means brand throughout, `mode` means light/dark, and the two compose as separate attributes.
+2. **ADR 0003's "theme" wording** — resolved by superseding the record rather than rewording it. It carries a banner noting that its "theme" means what the glossary calls **mode**.
+3. **`Button` had no lifecycle label** — now recorded in *Current component labels* above, along with the other three primitives.
 
-2. **ADR 0003 is titled "Semantic token naming" and refers to themes throughout** where it now means modes. Its argument is unaffected; the wording isn't.
-
-3. **`Button` has no lifecycle label.** Under this glossary it's *stable*. Nothing currently records that.
-
-Fixing (1) and (2) together is a single coherent change. It hasn't been made yet.
+New inconsistencies belong here as they are found. An empty section is the goal, not the expectation.

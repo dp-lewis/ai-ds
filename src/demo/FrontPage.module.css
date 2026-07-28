@@ -1,0 +1,62 @@
+.page {
+  background-color: var(--ds-color-bg);
+  color: var(--ds-color-fg);
+  font-family: var(--ds-font-body);
+  padding: var(--ds-space-5);
+  container-type: inline-size;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--ds-space-5);
+  padding-top: var(--ds-space-5);
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-5);
+}
+
+/* The rule between columns is a token width, so tabloid draws a heavy
+   divider and broadsheet a hairline without either being special-cased. */
+.aside {
+  padding-left: var(--ds-space-4);
+  border-left: var(--ds-border-width) solid var(--ds-color-border);
+}
+
+.strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--ds-space-4);
+  margin-top: var(--ds-space-5);
+  padding-top: var(--ds-space-4);
+  border-top: var(--ds-border-width-thick) solid var(--ds-color-fg);
+}
+
+.actions {
+  display: flex;
+  gap: var(--ds-space-2);
+  margin-top: var(--ds-space-5);
+  padding-top: var(--ds-space-4);
+  border-top: var(--ds-border-width) solid var(--ds-color-border);
+}
+
+/* Narrow containers (the side-by-side comparison) collapse to one column. */
+@container (max-width: 34rem) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .aside {
+    padding-left: 0;
+    border-left: none;
+    border-top: var(--ds-border-width) solid var(--ds-color-border);
+    padding-top: var(--ds-space-4);
+  }
+
+  .strip {
+    grid-template-columns: 1fr;
+  }
+}

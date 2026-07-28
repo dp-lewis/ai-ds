@@ -1,0 +1,67 @@
+/*
+ * Tabloid — the shouty one.
+ *
+ * Condensed heavy headlines, tight space (0.75× base), maximum contrast,
+ * hot red accent, thick black rules, uppercase labels. Everything is
+ * turned up.
+ */
+
+[data-theme='tabloid'] {
+  /* Colour — pure black on pure white, one loud accent */
+  --ds-color-bg: #ffffff;
+  --ds-color-surface: #f0f0f0;
+  --ds-color-fg: #000000;
+  --ds-color-fg-muted: #4a4a4a;
+  --ds-color-border: #000000;
+  --ds-color-border-strong: #000000;
+  --ds-color-brand: #d10a11;
+  --ds-color-brand-hover: #a30006;
+  --ds-color-brand-fg: #ffffff;
+  --ds-color-danger: #d10a11;
+  --ds-color-focus-ring: #d10a11;
+
+  /* Type — condensed display headlines, plain sans body */
+  --ds-font-heading:
+    'Arial Narrow', 'Helvetica Neue Condensed', Haettenschweiler, Impact,
+    system-ui, sans-serif;
+  --ds-font-body: ui-sans-serif, system-ui, -apple-system, Arial, sans-serif;
+  --ds-font-weight-bold: 800;
+  --ds-line-height-tight: 1;
+  --ds-letter-spacing-tight: -0.03em;
+
+  /* Space — 0.75× base. Cram it in. */
+  --ds-space-1: 0.1875rem;
+  --ds-space-2: 0.375rem;
+  --ds-space-3: 0.5625rem;
+  --ds-space-4: 0.75rem;
+  --ds-space-5: 1.125rem;
+  --ds-space-6: 1.5rem;
+  --ds-space-7: 2.25rem;
+  --ds-space-8: 3rem;
+
+  /* Shape — hard edges, heavy rules */
+  --ds-radius-sm: 0;
+  --ds-radius-md: 0;
+  --ds-radius-lg: 0;
+  --ds-border-width: 2px;
+  --ds-border-width-thick: 5px;
+  --ds-shadow-sm: none;
+  --ds-shadow-md: none;
+
+  /* Labels shout */
+  --ds-text-transform-label: uppercase;
+}
+
+[data-theme='tabloid'][data-mode='dark'] {
+  --ds-color-bg: #000000;
+  --ds-color-surface: #171717;
+  --ds-color-fg: #ffffff;
+  --ds-color-fg-muted: #b0b0b0;
+  --ds-color-border: #ffffff;
+  --ds-color-border-strong: #ffffff;
+  --ds-color-brand: #ff2b33;
+  --ds-color-brand-hover: #ff5a60;
+  --ds-color-brand-fg: #000000;
+  --ds-color-danger: #ff2b33;
+  --ds-color-focus-ring: #ff2b33;
+}

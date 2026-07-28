@@ -22,7 +22,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "build": "vite build && tsc -p tsconfig.build.json",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "validate:tokens": "node scripts/validate-tokens.mjs"
   },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
@@ -31,7 +32,6 @@
   "devDependencies": {
     "@storybook/addon-a11y": "^10.5.5",
     "@storybook/addon-docs": "^10.5.5",
-    "@storybook/addon-themes": "^10.5.5",
     "@storybook/react-vite": "^10.5.5",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
