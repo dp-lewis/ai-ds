@@ -1,0 +1,14 @@
+/*
+ * Storybook-only canvas styling. This lives here rather than in tokens.css
+ * because a published design system should not impose body styles on the
+ * consuming app — but the story canvas does need to follow the theme so the
+ * light/dark toggle looks right.
+ */
+
+body {
+  background-color: var(--ds-color-bg);
+  color: var(--ds-color-fg);
+  font-family: var(--ds-font-sans);
+  font-size: var(--ds-font-size-md);
+  line-height: var(--ds-line-height-normal);
+}
