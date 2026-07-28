@@ -50,5 +50,6 @@ theme change can't reflow the layout.
 - New components follow the shape of `src/components/Button/` and must be
   re-exported from `src/index.ts` to ship.
 
-See [CLAUDE.md](./CLAUDE.md) for the fuller architecture notes, and
-[docs/adr/](./docs/adr/README.md) for the decisions behind them.
+See [CLAUDE.md](./CLAUDE.md) for the fuller architecture notes,
+[docs/adr/](./docs/adr/README.md) for the decisions behind them, and
+[docs/GLOSSARY.md](./docs/GLOSSARY.md) for the agreed terminology.

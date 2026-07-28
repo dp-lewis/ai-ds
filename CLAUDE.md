@@ -13,6 +13,15 @@ npm run typecheck         # tsc --noEmit across src, .storybook, vite.config.ts
 
 There is no test script and no linter yet — both were deliberately deferred. `npm test` will report a missing script.
 
+## Terminology
+
+[`docs/GLOSSARY.md`](./docs/GLOSSARY.md) fixes the vocabulary. Use it — several words are deliberately narrowed, and a few common ones are explicitly rejected. The traps most likely to catch you:
+
+- **`primitive` means a token tier, never a component.** The lowest component tier is **base component**.
+- **Dark is a *mode*, not a theme.** `theme` means brand. The code hasn't caught up yet — see the glossary's *Known inconsistencies*.
+- **`variant` is one specific prop**, not an umbrella for appearance props. A `size` is not a variant.
+- **Components** are experimental/stable/deprecated. **ADRs** are accepted/provisional/superseded. Never cross the two.
+
 ## Decision records
 
 `docs/adr/` holds the reasoning behind the choices below — including the alternatives that were rejected and why. Read the relevant record before reversing something; several constraints here look arbitrary and are not. [`docs/adr/README.md`](./docs/adr/README.md) is the index.
