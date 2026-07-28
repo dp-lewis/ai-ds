@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "emitDeclarationOnly": true,
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "dist",
+    "rootDir": "src"
+  },
+  "include": ["src"],
+  // bundle.ts is Vite's entry only; index.ts is the declarations entry.
+  "exclude": ["src/**/*.stories.tsx", "src/bundle.ts"]
+}

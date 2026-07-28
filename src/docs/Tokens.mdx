@@ -1,0 +1,155 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Tokens" />
+
+export const Row = ({ children }) => (
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      gap: 'var(--ds-space-4)',
+      padding: 'var(--ds-space-2) 0',
+      borderBottom: 'var(--ds-border-width) solid var(--ds-color-border)',
+      fontFamily: 'var(--ds-font-sans)',
+      fontSize: 'var(--ds-font-size-sm)',
+    }}
+  >
+    {children}
+  </div>
+);
+
+export const Name = ({ children }) => (
+  <code
+    style={{
+      fontFamily: 'var(--ds-font-mono)',
+      fontSize: 'var(--ds-font-size-sm)',
+      minWidth: '15rem',
+      color: 'var(--ds-color-fg)',
+    }}
+  >
+    {children}
+  </code>
+);
+
+export const Swatch = ({ token }) => (
+  <span
+    style={{
+      width: 'var(--ds-space-6)',
+      height: 'var(--ds-space-6)',
+      borderRadius: 'var(--ds-radius-sm)',
+      border: 'var(--ds-border-width) solid var(--ds-color-border)',
+      background: `var(${token})`,
+      flexShrink: 0,
+    }}
+  />
+);
+
+export const Bar = ({ token }) => (
+  <span
+    style={{
+      height: 'var(--ds-space-3)',
+      width: `var(${token})`,
+      background: 'var(--ds-color-brand)',
+      borderRadius: 'var(--ds-radius-sm)',
+    }}
+  />
+);
+
+# Tokens
+
+Every token is defined in `src/styles/tokens.css`. The samples below read the
+custom properties directly, so this page always reflects the real values — and
+it re-renders when you flip the theme toolbar.
+
+## Colour
+
+Names are semantic rather than literal: a component asks for `surface` or
+`brand`, never `grey-100`. That's what lets the palette change without editing
+component styles, and what makes the dark theme a pure token override.
+
+{['--ds-color-bg', '--ds-color-surface', '--ds-color-fg', '--ds-color-fg-muted', '--ds-color-border', '--ds-color-brand', '--ds-color-brand-hover', '--ds-color-brand-fg', '--ds-color-danger', '--ds-color-focus-ring'].map((token) => (
+
+<Row key={token}>
+  <Swatch token={token} />
+  <Name>{token}</Name>
+</Row>
+))}
+
+## Space
+
+A 4px base. The scale is deliberately short — an open-ended one invites
+one-off values.
+
+{[1, 2, 3, 4, 5, 6, 7, 8].map((step) => (
+
+<Row key={step}>
+  <Name>{`--ds-space-${step}`}</Name>
+  <Bar token={`--ds-space-${step}`} />
+</Row>
+))}
+
+## Radius
+
+{['sm', 'md', 'lg', 'full'].map((step) => (
+
+<Row key={step}>
+  <span
+    style={{
+      width: 'var(--ds-space-7)',
+      height: 'var(--ds-space-6)',
+      background: 'var(--ds-color-surface)',
+      border: 'var(--ds-border-width) solid var(--ds-color-border)',
+      borderRadius: `var(--ds-radius-${step})`,
+      flexShrink: 0,
+    }}
+  />
+  <Name>{`--ds-radius-${step}`}</Name>
+</Row>
+))}
+
+## Type
+
+{['sm', 'md', 'lg'].map((step) => (
+
+<Row key={step}>
+  <Name>{`--ds-font-size-${step}`}</Name>
+  <span style={{ fontSize: `var(--ds-font-size-${step})`, color: 'var(--ds-color-fg)' }}>
+    The quick brown fox
+  </span>
+</Row>
+))}
+
+<Row>
+  <Name>--ds-font-weight-regular</Name>
+  <span style={{ fontWeight: 'var(--ds-font-weight-regular)' }}>The quick brown fox</span>
+</Row>
+
+<Row>
+  <Name>--ds-font-weight-medium</Name>
+  <span style={{ fontWeight: 'var(--ds-font-weight-medium)' }}>The quick brown fox</span>
+</Row>
+
+## Elevation
+
+{['sm', 'md'].map((step) => (
+
+<Row key={step}>
+  <span
+    style={{
+      width: 'var(--ds-space-7)',
+      height: 'var(--ds-space-6)',
+      background: 'var(--ds-color-bg)',
+      borderRadius: 'var(--ds-radius-md)',
+      boxShadow: `var(--ds-shadow-${step})`,
+      flexShrink: 0,
+    }}
+  />
+  <Name>{`--ds-shadow-${step}`}</Name>
+</Row>
+))}
+
+## Motion
+
+`--ds-duration-fast` (120ms) is the only duration token. It collapses to `0ms`
+under `prefers-reduced-motion`, in `tokens.css`, so individual components don't
+have to handle that themselves.
